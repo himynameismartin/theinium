@@ -65,9 +65,9 @@ type ElementProps = HTMLAttributesProps & Partial<DeclarationRecordType> & {
   as?: keyof JSX.IntrinsicElements | React.ComponentType<any>;
 };
 
-const Element: React.FC<ElementProps> = (props) => (
-  <StyledElement {...props} />
-);
+const Element = React.forwardRef<HTMLDivElement, ElementProps>((props, ref) => (
+  <StyledElement ref={ref} {...props} />
+))
 
 Element.displayName = 'Element';
 
