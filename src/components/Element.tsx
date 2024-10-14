@@ -4,6 +4,8 @@ import styled from '@emotion/styled';
 import * as React from 'react';
 import { getOr } from 'lodash/fp';
 
+const DEFAULT_HTML_TAG = 'div';
+
 const BACKGROUND_COLOR = 'backgroundColor';
 const COLOR = 'color';
 const FONT_SIZE = 'fontSize';
@@ -49,7 +51,7 @@ const fontSizeDeclaration = createDeclarationFactory({
   property: FONT_SIZE,
 });
 
-const StyledElement = styled('div', {
+const StyledElement = styled(DEFAULT_HTML_TAG, {
   shouldForwardProp: (prop) => {
     return isPropValid(prop) && !ATTRIBUTES_NOT_TO_PASS.includes(prop as Properties);
   },
