@@ -57,3 +57,11 @@ export const BackgroundColorBlackColorWhiteFontSizeThirtyTwo: Story = {
     fontSize: 32,
   },
 };
+
+export const OnClick: Story = {
+  args: {
+    onClick: () => {
+      alert('=)');
+    },
+  },
+};
