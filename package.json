@@ -1,0 +1,50 @@
+{
+  "name": "theinium",
+  "version": "0.0.1",
+  "description": "What I always wanted from the base for my design system library",
+  "files": [
+    "lib/**/*"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "repository": "git@github.com:himynameismartin/theinium.git",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^18.3.1"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.25.7",
+    "@babel/preset-env": "^7.25.8",
+    "@babel/preset-typescript": "^7.25.7",
+    "@chromatic-com/storybook": "^1.9.0",
+    "@storybook/addon-essentials": "^8.3.5",
+    "@storybook/addon-interactions": "^8.3.5",
+    "@storybook/addon-links": "^8.3.5",
+    "@storybook/addon-onboarding": "^8.3.5",
+    "@storybook/addon-webpack5-compiler-babel": "^3.0.3",
+    "@storybook/addon-webpack5-compiler-swc": "^1.0.5",
+    "@storybook/blocks": "^8.3.5",
+    "@storybook/react": "^8.3.5",
+    "@storybook/react-webpack5": "^8.3.5",
+    "@storybook/test": "^8.3.5",
+    "@types/react": "^18.3.11",
+    "eslint": "^9.12.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-storybook": "^0.9.0",
+    "prettier": "^3.3.3",
+    "prop-types": "^15.8.1",
+    "storybook": "^8.3.5",
+    "typescript": "^5.6.3"
+  },
+  "scripts": {
+    "build": "rm -rf lib && tsc --project tsconfig.json",
+    "storybook": "storybook dev -p 6006"
+  },
+  "engines": {
+    "node": "^18.18.0 || ^20.9.0 || >=21.1.0"
+  }
+}
