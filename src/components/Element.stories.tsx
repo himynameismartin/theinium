@@ -49,3 +49,11 @@ export const ColorRed: Story = {
     color: '#ff0000',
   },
 };
+
+export const BackgroundColorBlackColorWhiteFontSizeThirtyTwo: Story = {
+  args: {
+    backgroundColor: '#000000',
+    color: '#ffffff',
+    fontSize: 32,
+  },
+};
