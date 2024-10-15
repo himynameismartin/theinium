@@ -1,5 +1,5 @@
 import isPropValid from '@emotion/is-prop-valid';
-import { Interpolation } from '@emotion/react'; // Import Interpolation type from Emotion
+import { Interpolation } from '@emotion/react';
 import styled from '@emotion/styled';
 import * as React from 'react';
 import { getOr } from 'lodash/fp';
@@ -9,12 +9,14 @@ const DEFAULT_HTML_TAG = 'div';
 const BACKGROUND_COLOR = 'backgroundColor';
 const COLOR = 'color';
 const FONT_SIZE = 'fontSize';
+const FONT_WEIGHT = 'fontWeight';
 
 /* For complete list, see https://github.com/emotion-js/emotion/blob/main/packages/is-prop-valid/src/props.js */
 const ATTRIBUTES_NOT_TO_PASS = [
   BACKGROUND_COLOR,
   COLOR,
   FONT_SIZE,
+  FONT_WEIGHT,
 ] as const;
 
 type Properties = typeof ATTRIBUTES_NOT_TO_PASS[number];
@@ -50,6 +52,9 @@ const colorDeclaration = createDeclarationFactory({
 const fontSizeDeclaration = createDeclarationFactory({
   property: FONT_SIZE,
 });
+const fontWeightDeclaration = createDeclarationFactory({
+  property: FONT_WEIGHT,
+});
 
 const StyledElement = styled(DEFAULT_HTML_TAG, {
   shouldForwardProp: (prop) => {
@@ -59,6 +64,7 @@ const StyledElement = styled(DEFAULT_HTML_TAG, {
   ${backgroundColorDeclaration}
   ${colorDeclaration}
   ${fontSizeDeclaration}
+  ${fontWeightDeclaration}
 `;
 
 type ElementProps = HTMLAttributesProps & Partial<DeclarationRecordType> & {
