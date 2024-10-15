@@ -4,9 +4,7 @@ import { defaultsDeep } from 'lodash';
 
 const THEME_SEPARATOR = '.'
 
-type ThemeContextType = {
-  [key: string]: Theme;
-};
+type ThemeContextType = Record<string, Theme>;
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
