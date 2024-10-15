@@ -32,28 +32,33 @@ const ThemeAwareComponent = styled(Element)`
   color: ${getColor('brand')}
 `;
 
-const ThemedApp: React.FC = () => {
-  return (
-    <ThemeContextProvider themes={themes}>
-      <ThemeProvider name="vanilla">
-        <ThemeAwareComponent>vanilla</ThemeAwareComponent>
-        <ThemeProvider name="pistachio">
-          <ThemeAwareComponent>pistachio</ThemeAwareComponent>
-        </ThemeProvider>
-      </ThemeProvider>
-    </ThemeContextProvider>
-  );
-};
+const THEME_OPTIONS = ['vanilla', 'pistachio'];
 
-const meta: Meta<typeof Element> = {
+const ThemedApp: React.FC<{ theme: (typeof THEME_OPTIONS)[number] }> = ({ theme }) => (
+  <ThemeContextProvider themes={themes}>
+    <ThemeProvider name="vanilla">
+      <ThemeProvider name={theme}>
+        <ThemeAwareComponent>theinuim</ThemeAwareComponent>
+      </ThemeProvider>
+    </ThemeProvider>
+  </ThemeContextProvider>
+);
+
+const meta: Meta<typeof ThemedApp> = {
   title: 'ThemeProvider',
   component: ThemedApp,
   parameters: {
     layout: 'centered',
   },
   tags: ['autodocs'],
+  argTypes: {
+    theme: {
+      options: THEME_OPTIONS,
+      control: { type: 'select' },
+    },
+  },
   args: {
-    children: 'theinium',
+    theme: 'vanilla',
   },
 };
 
