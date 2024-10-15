@@ -3,8 +3,7 @@ import { Interpolation } from '@emotion/react';
 import styled from '@emotion/styled';
 import * as React from 'react';
 import { getOr } from 'lodash/fp';
-
-const DEFAULT_HTML_TAG = 'div';
+import { DEFAULT_HTML_TAG } from '../constants';
 
 const BACKGROUND_COLOR = 'backgroundColor';
 const COLOR = 'color';
