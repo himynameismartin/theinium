@@ -106,7 +106,7 @@ const createThemeablePseudoClasses = createThemeableComponentGroup({ name: 'pseu
 const ThemeableHoverPseudoClass = createThemeablePseudoClasses({ as: 'div', component: StyledComponent });
 
 const createThemeablePseudoElements = createThemeableComponentGroup({ name: 'pseudoElements' });
-const ThemeableFirstLetterPseudoClass = createThemeablePseudoElements({ as: 'div', component: StyledComponent });
+const ThemeableFirstLetterPseudoElement = createThemeablePseudoElements({ as: 'div', component: StyledComponent });
 
 const meta: Meta<typeof ThemeableComponentApp> = {
   title: 'createThemeableComponentGroup',
@@ -166,8 +166,8 @@ export const HoverPseudoClass: Story = {
   },
 };
 
-export const FirstLetterPseudoClass: Story = {
+export const FirstLetterPseudoElement: Story = {
   args: {
-    children: <ThemeableFirstLetterPseudoClass>theinium</ThemeableFirstLetterPseudoClass>,
+    children: <ThemeableFirstLetterPseudoElement>theinium</ThemeableFirstLetterPseudoElement>,
   },
 };
