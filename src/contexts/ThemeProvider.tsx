@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useMemo } from 'react';
+import React, { createContext, useContext } from 'react';
 import { ThemeProvider as EmotionThemeProvider, Theme, useTheme } from '@emotion/react';
 import { defaultsDeep } from 'lodash';
 
@@ -45,9 +45,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ name, children }) 
   const themeNames = currentThemeName.split(THEME_SEPARATOR) || [];
   const firstTheme = themes[themeNames[0]] || {};
 
-  const mergedTheme = useMemo(() => {
-    return defaultsDeep({}, selectedTheme, firstTheme);
-  }, [selectedTheme, firstTheme]);
+  const mergedTheme = defaultsDeep({}, selectedTheme, firstTheme);
 
   const fullName = currentThemeName ? `${currentThemeName}${THEME_SEPARATOR}${name}` : name;
   const finalTheme = { ...mergedTheme, name: fullName };
