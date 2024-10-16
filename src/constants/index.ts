@@ -1,1 +1,50 @@
 export const DEFAULT_HTML_TAG = 'div';
+
+export const NON_FUNCTIONAL_PSEUDO_CLASS_NAMES = [
+  'active',
+  'checked',
+  'default',
+  'disabled',
+  'empty',
+  'enabled',
+  'first',
+  'first-child',
+  'first-of-type',
+  'focus',
+  'focus-visible',
+  'focus-within',
+  'hover',
+  'indeterminate',
+  'in-range',
+  'invalid',
+  'last-child',
+  'last-of-type',
+  'link',
+  'only-child',
+  'only-of-type',
+  'optional',
+  'out-of-range',
+  'placeholder-shown',
+  'read-only',
+  'read-write',
+  'required',
+  'root',
+  'scope',
+  'target',
+  'valid',
+  'visited'
+] as const;
+
+export const NON_FUNCTIONAL_PSEUDO_ELEMENT_NAMES = [
+  'after',
+  'before',
+  'cue',
+  'first-letter',
+  'first-line',
+  'grammar-error',
+  'marker',
+  'placeholder',
+  'selection',
+  'slotted',
+  'spelling-error'
+] as const;

@@ -31,6 +31,22 @@ const themes = {
       H4: {
         fontSize: '16px'
       }
+    },
+    pseudoClasses: {
+      default: {
+        color: '#F3E5AB'
+      },
+      hover: {
+        color: '#93C572'
+      }
+    },
+    pseudoElements: {
+      default: {
+        color: '#F3E5AB'
+      },
+      'first-letter': {
+        color: '#93C572'
+      }
     }
   },
   pistachio: {
@@ -42,6 +58,22 @@ const themes = {
     headings: {
       default: {
         color: '#93C572'
+      }
+    },
+    pseudoClasses: {
+      default: {
+        color: '#93C572'
+      },
+      hover: {
+        color: '#F3E5AB'
+      }
+    },
+    pseudoElements: {
+      default: {
+        color: '#93C572'
+      },
+      'first-letter': {
+        color: '#F3E5AB'
       }
     }
   }
@@ -69,6 +101,12 @@ const ThemeableH1 = createThemeableHeading({ as: 'h1', component: StyledComponen
 const ThemeableH2 = createThemeableHeading({ as: 'h2', component: StyledComponent, name: 'H2' });
 const ThemeableH3 = createThemeableHeading({ as: 'h3', component: StyledComponent, name: 'H3' });
 const ThemeableH4 = createThemeableHeading({ as: 'h4', component: StyledComponent, name: 'H4' });
+
+const createThemeablePseudoClasses = createThemeableComponentGroup({ name: 'pseudoClasses' });
+const ThemeableHoverPseudoClass = createThemeablePseudoClasses({ as: 'div', component: StyledComponent });
+
+const createThemeablePseudoElements = createThemeableComponentGroup({ name: 'pseudoElements' });
+const ThemeableFirstLetterPseudoClass = createThemeablePseudoElements({ as: 'div', component: StyledComponent });
 
 const meta: Meta<typeof ThemeableComponentApp> = {
   title: 'createThemeableComponentGroup',
@@ -119,5 +157,17 @@ export const H3: Story = {
 export const H4: Story = {
   args: {
     children: <ThemeableH4>theinium</ThemeableH4>,
+  },
+};
+
+export const HoverPseudoClass: Story = {
+  args: {
+    children: <ThemeableHoverPseudoClass>theinium</ThemeableHoverPseudoClass>,
+  },
+};
+
+export const FirstLetterPseudoClass: Story = {
+  args: {
+    children: <ThemeableFirstLetterPseudoClass>theinium</ThemeableFirstLetterPseudoClass>,
   },
 };
