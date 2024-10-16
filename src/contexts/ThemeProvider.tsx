@@ -1,12 +1,16 @@
-import React, { createContext, useContext } from 'react';
-import { ThemeProvider as EmotionThemeProvider, Theme, useTheme } from '@emotion/react';
+import * as React from 'react';
+import { ThemeProvider as EmotionThemeProvider, Theme as EmotionTheme, useTheme } from '@emotion/react';
 import { defaultsDeep } from 'lodash';
 
 const THEME_SEPARATOR = '.'
 
+type Theme = EmotionTheme & {
+  name?: string;
+}
+
 type ThemeContextType = Record<string, Theme>;
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+const ThemeContext = React.createContext<ThemeContextType | undefined>(undefined);
 
 type ThemeContextProviderProps = {
   themes: ThemeContextType;
@@ -20,7 +24,7 @@ export const ThemeContextProvider: React.FC<ThemeContextProviderProps> = (
 };
 
 const useThemeContext = () => {
-  const context = useContext(ThemeContext);
+  const context = React.useContext(ThemeContext);
   if (!context) {
     throw new Error('useThemeContext must be used within a ThemeContextProvider');
   }
@@ -34,8 +38,8 @@ type ThemeProviderProps = {
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ name, children }) => {
   const themes = useThemeContext();
-  const currentTheme = useTheme();
-  const currentThemeName = currentTheme['name'] || '';
+  const currentTheme = useTheme() as Theme;
+  const currentThemeName = currentTheme?.name || '';
   const selectedTheme = themes[name];
 
   if (!selectedTheme) {

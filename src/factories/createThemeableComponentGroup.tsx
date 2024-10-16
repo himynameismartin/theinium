@@ -1,7 +1,7 @@
 import { Theme, useTheme } from '@emotion/react';
 import { defaultsDeep } from 'lodash';
 import { getOr } from 'lodash/fp';
-import React, { ElementType, ComponentType } from 'react';
+import * as React from 'react';
 import { Element } from '../components';
 import {
   DEFAULT_HTML_TAG,
@@ -12,9 +12,9 @@ import {
 type ThemeableComponentProps = Record<string, any>;
 
 type CreateThemeableComponentGroup = {
-  (params: { name: string, component?: ElementType }): (
-    options?: { as?: ElementType, component?: ElementType, name?: string }
-  ) => ComponentType<ThemeableComponentProps>;
+  (params: { name: string, component?: React.ElementType }): (
+    options?: { as?: React.ElementType, component?: React.ElementType, name?: string }
+  ) => React.ComponentType<ThemeableComponentProps>;
 };
 
 const createThemeableComponentGroup: CreateThemeableComponentGroup = ({
@@ -43,7 +43,7 @@ const createThemeableComponentGroup: CreateThemeableComponentGroup = ({
     accumulator[pseudo] = mergedPseudoTheme;
 
     return accumulator;
-  }, {} as Theme);
+  }, {} as Record<string, Record<string, string>>);
 
   return <Tag as={as} {...mergedTheme} pseudo={mergedPseudoThemes} {...rest} />;
 };
