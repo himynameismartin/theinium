@@ -11,6 +11,15 @@ import {
   NON_FUNCTIONAL_PSEUDO_ELEMENT_NAMES,
 } from '../constants';
 
+const PSEUDO_CLASS_NAME_INDICATOR = ':';
+const PSEUDO_ELEMENT_NAME_INDICATOR = '::';
+const PSEUDO_ENTITIES_NAME_INDICATORS = [
+  PSEUDO_CLASS_NAME_INDICATOR,
+  PSEUDO_ELEMENT_NAME_INDICATOR,
+] as const;
+
+type Indicator = typeof PSEUDO_ENTITIES_NAME_INDICATORS[number];
+
 type Properties = typeof CSS_PROPERTIES[number];
 
 type DeclarationsHandler = {
@@ -19,7 +28,7 @@ type DeclarationsHandler = {
 
 type PseudoDeclarationsHandler = DeclarationsHandler &
   {
-    indicator: ':' | '::';
+    indicator: Indicator;
     pseudoName: string;
   };
   
@@ -62,12 +71,12 @@ const StyledElement = styled(DEFAULT_HTML_TAG, {
   ${declarationsHandler({ properties: CSS_PROPERTIES })}
   ${NON_FUNCTIONAL_PSEUDO_CLASS_NAMES.map(pseudoName => pseudoSelectorsHandler({
     properties: CSS_PROPERTIES,
-    indicator: ':',
+    indicator: PSEUDO_CLASS_NAME_INDICATOR,
     pseudoName,
   }))}
   ${NON_FUNCTIONAL_PSEUDO_ELEMENT_NAMES.map(pseudoName => pseudoSelectorsHandler({
     properties: CSS_PROPERTIES,
-    indicator: '::',
+    indicator: PSEUDO_ELEMENT_NAME_INDICATOR,
     pseudoName,
   }))}
 `;
