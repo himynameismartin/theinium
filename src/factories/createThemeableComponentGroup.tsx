@@ -1,4 +1,4 @@
-import { Theme, useTheme } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import { defaultsDeep } from 'lodash';
 import { getOr } from 'lodash/fp';
 import * as React from 'react';
