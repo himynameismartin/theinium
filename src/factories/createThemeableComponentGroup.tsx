@@ -16,23 +16,19 @@ type CreateThemeableComponentGroup = {
 const createThemeableComponentGroup: CreateThemeableComponentGroup = ({
   name: groupName,
   component: groupComponent = Element
-}) => ({ as = DEFAULT_HTML_TAG, component = Element, name = '' } = {}) => {
-  const ThemeableComponent: React.FC<ThemeableComponentProps> = ({ ...rest }) => {
-    const theme = useTheme();
-    const Tag = component || groupComponent;
+}) => ({ as = DEFAULT_HTML_TAG, component = Element, name = '' } = {}) => ({ ...rest }) => {
+  const theme = useTheme();
+  const Tag = component || groupComponent;
 
-    const groupTheme = getOr({}, `${groupName}.default`, theme);
-    const componentTheme = getOr({}, `${groupName}.${name}`, theme);
+  const groupTheme = getOr({}, `${groupName}.default`, theme);
+  const componentTheme = getOr({}, `${groupName}.${name}`, theme);
 
-    const mergedTheme = defaultsDeep(
-      componentTheme,
-      groupTheme,
-    )
+  const mergedTheme = defaultsDeep(
+    componentTheme,
+    groupTheme,
+  )
 
-    return <Tag as={as} {...mergedTheme} {...rest} />;
-  };
-
-  return ThemeableComponent;
+  return <Tag as={as} {...mergedTheme} {...rest} />;
 };
 
 export default createThemeableComponentGroup;

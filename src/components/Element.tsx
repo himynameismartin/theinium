@@ -5,22 +5,18 @@ import * as React from 'react';
 import { getOr } from 'lodash/fp';
 import { DEFAULT_HTML_TAG } from '../constants';
 
-const BACKGROUND_COLOR = 'backgroundColor';
-const COLOR = 'color';
-const FONT_SIZE = 'fontSize';
-const FONT_WEIGHT = 'fontWeight';
-
 /* For complete list, see https://github.com/emotion-js/emotion/blob/main/packages/is-prop-valid/src/props.js */
-const ATTRIBUTES_NOT_TO_PASS = [
-  BACKGROUND_COLOR,
-  COLOR,
-  FONT_SIZE,
-  FONT_WEIGHT,
+const CSS_PROPERTIES = [
+  'backgroundColor',
+  'color',
+  'fontSize',
+  'fontWeight',
 ] as const;
 
-type Properties = typeof ATTRIBUTES_NOT_TO_PASS[number];
-type CreateDeclarationFactory = {
-  property: Properties;
+type Properties = typeof CSS_PROPERTIES[number];
+
+type DeclarationsHandler = {
+  properties: readonly Properties[];
 };
 
 type HTMLAttributesProps = React.HTMLAttributes<HTMLElement>
@@ -28,42 +24,24 @@ type HTMLAttributesProps = React.HTMLAttributes<HTMLElement>
 type ValueType = string | number;
 type DeclarationRecordType = Partial<Record<Properties, ValueType>>;
 
-const createDeclarationFactory = (
-  { property }: CreateDeclarationFactory): (props: HTMLAttributesProps
-) => Interpolation<React.CSSProperties> => {
+const declarationsHandler = ({ properties }: DeclarationsHandler) => {
   return (props: HTMLAttributesProps): Interpolation<React.CSSProperties> => {
-    const value = getOr(null, property, props);
-
-    if (value !== undefined && value !== null) {
-      return { [property]: value } as Interpolation<React.CSSProperties>;
-    }
-
-    return {};
-  }
+    return properties.reduce((accumulator, property) => {
+      const value = getOr(null, property, props);
+      if (value !== undefined && value !== null) {
+        (accumulator as Partial<React.CSSProperties>)[property] = value;
+      }
+      return accumulator;
+    }, {} as Interpolation<React.CSSProperties>);
+  };
 };
-
-const backgroundColorDeclaration = createDeclarationFactory({
-  property: BACKGROUND_COLOR,
-});
-const colorDeclaration = createDeclarationFactory({
-  property: COLOR,
-});
-const fontSizeDeclaration = createDeclarationFactory({
-  property: FONT_SIZE,
-});
-const fontWeightDeclaration = createDeclarationFactory({
-  property: FONT_WEIGHT,
-});
 
 const StyledElement = styled(DEFAULT_HTML_TAG, {
   shouldForwardProp: (prop) => {
-    return isPropValid(prop) && !ATTRIBUTES_NOT_TO_PASS.includes(prop as Properties);
+    return isPropValid(prop) && !CSS_PROPERTIES.includes(prop as Properties);
   },
 })`
-  ${backgroundColorDeclaration}
-  ${colorDeclaration}
-  ${fontSizeDeclaration}
-  ${fontWeightDeclaration}
+  ${declarationsHandler({ properties: CSS_PROPERTIES })}
 `;
 
 type ElementProps = HTMLAttributesProps & Partial<DeclarationRecordType> & {
