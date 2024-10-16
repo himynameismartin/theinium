@@ -5,18 +5,11 @@ import * as React from 'react';
 import { isEmpty } from 'lodash';
 import { getOr } from 'lodash/fp';
 import {
+  CSS_PROPERTIES,
   DEFAULT_HTML_TAG,
   NON_FUNCTIONAL_PSEUDO_CLASS_NAMES,
   NON_FUNCTIONAL_PSEUDO_ELEMENT_NAMES,
 } from '../constants';
-
-/* For complete list, see https://github.com/emotion-js/emotion/blob/main/packages/is-prop-valid/src/props.js */
-const CSS_PROPERTIES = [
-  'backgroundColor',
-  'color',
-  'fontSize',
-  'fontWeight',
-] as const;
 
 type Properties = typeof CSS_PROPERTIES[number];
 
