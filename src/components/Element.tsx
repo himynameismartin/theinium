@@ -13,12 +13,8 @@ import {
 
 const PSEUDO_CLASS_NAME_INDICATOR = ':';
 const PSEUDO_ELEMENT_NAME_INDICATOR = '::';
-const PSEUDO_ENTITIES_NAME_INDICATORS = [
-  PSEUDO_CLASS_NAME_INDICATOR,
-  PSEUDO_ELEMENT_NAME_INDICATOR,
-] as const;
 
-type Indicator = typeof PSEUDO_ENTITIES_NAME_INDICATORS[number];
+type Indicator = typeof PSEUDO_CLASS_NAME_INDICATOR | typeof PSEUDO_ELEMENT_NAME_INDICATOR;
 
 type Properties = typeof CSS_PROPERTIES[number];
 
@@ -32,7 +28,7 @@ type PseudoDeclarationsHandler = DeclarationsHandler &
     pseudoName: string;
   };
   
-type HTMLAttributesProps = React.HTMLAttributes<HTMLElement>
+type HTMLAttributesProps = React.HTMLAttributes<HTMLElement>;
 
 type ValueType = string | number;
 type DeclarationRecordType = Partial<Record<Properties, ValueType>>;
@@ -61,7 +57,7 @@ const pseudoSelectorsHandler = (
     }
     return null;
   }
-}
+};
 
 const StyledElement = styled(DEFAULT_HTML_TAG, {
   shouldForwardProp: (prop) => {
@@ -82,12 +78,12 @@ const StyledElement = styled(DEFAULT_HTML_TAG, {
 `;
 
 type ElementProps = HTMLAttributesProps & Partial<DeclarationRecordType> & {
-  as?: keyof JSX.IntrinsicElements | React.ComponentType<any>;
+  as?: keyof JSX.IntrinsicElements | React.ComponentType<unknown>;
 };
 
 const Element = React.forwardRef<HTMLDivElement, ElementProps>((props, ref) => (
   <StyledElement ref={ref} {...props} />
-))
+));
 
 Element.displayName = 'Element';
 

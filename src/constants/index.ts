@@ -343,7 +343,7 @@ export const CSS_PROPERTIES = [
   'wordSpacing',
   'writingMode',
   'zIndex',
-  'zoom'
+  'zoom',
 ] as const;
 
 export const NON_FUNCTIONAL_PSEUDO_CLASS_NAMES = [
@@ -378,7 +378,7 @@ export const NON_FUNCTIONAL_PSEUDO_CLASS_NAMES = [
   'scope',
   'target',
   'valid',
-  'visited'
+  'visited',
 ] as const;
 
 export const NON_FUNCTIONAL_PSEUDO_ELEMENT_NAMES = [
@@ -392,5 +392,5 @@ export const NON_FUNCTIONAL_PSEUDO_ELEMENT_NAMES = [
   'placeholder',
   'selection',
   'slotted',
-  'spelling-error'
+  'spelling-error',
 ] as const;

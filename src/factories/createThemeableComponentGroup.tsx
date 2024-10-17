@@ -9,7 +9,7 @@ import {
   NON_FUNCTIONAL_PSEUDO_ELEMENT_NAMES,
 } from '../constants';
 
-type ThemeableComponentProps = Record<string, any>;
+type ThemeableComponentProps = Record<string, unknown>;
 
 type CreateThemeableComponentGroup = {
   (params: { name: string, component?: React.ElementType }): (
