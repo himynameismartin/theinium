@@ -382,7 +382,11 @@ export const NON_FUNCTIONAL_PSEUDO_CLASS_NAMES = [
 ] as const;
 
 export const FUNCTIONAL_PSEUDO_CLASS_NAMES = [
-  /nth-(child|last-child|of-type|last-of-type)\(\s*(even|odd|([+-]?\d*n\s*(?:[+-]\s*\d+)?)?)\s*\)/,
+  /nth-(child|last-child|of-type|last-of-type|col|last-col)\((even|odd|([+-]?\d*n(?:[+-]\d+)?)?)\)/,
+  /(not|is|where|has|matches|any)\(([^)]+)\)/,
+  /lang\(([a-zA-Z-]+)\)/,
+  /dir\((ltr|rtl|auto)\)/,
+  /state\(([a-zA-Z0-9_-]+)\)/
 ] as const;
 
 export const PSEUDO_CLASS_NAMES = [
@@ -404,7 +408,11 @@ export const NON_FUNCTIONAL_PSEUDO_ELEMENT_NAMES = [
   'spelling-error',
 ] as const;
 
-export const FUNCTIONAL_PSEUDO_ELEMENT_NAMES = [] as const;
+export const FUNCTIONAL_PSEUDO_ELEMENT_NAMES = [
+  /part\(([a-zA-Z0-9_-]+)\)/,
+  /slotted\(([a-zA-Z0-9._-]+)\)/,
+  /(cue|cue-region)\(([a-zA-Z0-9._-]*)\)/,
+] as const;
 
 export const PSEUDO_ELEMENT_NAMES = [
   ...FUNCTIONAL_PSEUDO_ELEMENT_NAMES,
