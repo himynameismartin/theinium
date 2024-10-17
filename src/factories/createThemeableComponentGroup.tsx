@@ -24,7 +24,7 @@ const createThemeableComponentGroup: CreateThemeableComponentGroup = ({
   const theme = useTheme();
   const Tag = component || groupComponent;
 
-  const groupTheme = getOr({}, `${groupName}.default`, theme);
+  const groupTheme = getOr({}, `${groupName}.defaults`, theme);
   const componentTheme = getOr({}, `${groupName}.${name}`, theme);
 
   const mergedTheme = defaultsDeep(

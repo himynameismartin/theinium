@@ -11,12 +11,12 @@ const THEME_OPTIONS = ['vanilla', 'pistachio'];
 const themes = {
   vanilla: {
     components: {
-      default: {
+      defaults: {
         color: '#F3E5AB'
       }
     },
     headings: {
-      default: {
+      defaults: {
         color: '#F3E5AB'
       },
       H1: {
@@ -33,7 +33,7 @@ const themes = {
       }
     },
     pseudoClasses: {
-      default: {
+      defaults: {
         color: '#F3E5AB'
       },
       hover: {
@@ -44,7 +44,7 @@ const themes = {
       }
     },
     pseudoElements: {
-      default: {
+      defaults: {
         color: '#F3E5AB'
       },
       'first-letter': {
@@ -54,17 +54,17 @@ const themes = {
   },
   pistachio: {
     components: {
-      default: {
+      defaults: {
         color: '#93C572'
       }
     },
     headings: {
-      default: {
+      defaults: {
         color: '#93C572'
       }
     },
     pseudoClasses: {
-      default: {
+      defaults: {
         color: '#93C572'
       },
       hover: {
@@ -75,7 +75,7 @@ const themes = {
       }
     },
     pseudoElements: {
-      default: {
+      defaults: {
         color: '#93C572'
       },
       'first-letter': {
