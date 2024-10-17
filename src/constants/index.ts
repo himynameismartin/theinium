@@ -381,6 +381,15 @@ export const NON_FUNCTIONAL_PSEUDO_CLASS_NAMES = [
   'visited',
 ] as const;
 
+export const FUNCTIONAL_PSEUDO_CLASS_NAMES = [
+  /nth-(child|last-child|of-type|last-of-type)\(\s*(even|odd|([+-]?\d*n\s*(?:[+-]\s*\d+)?)?)\s*\)/,
+] as const;
+
+export const PSEUDO_CLASS_NAMES = [
+  ...FUNCTIONAL_PSEUDO_CLASS_NAMES,
+  ...NON_FUNCTIONAL_PSEUDO_CLASS_NAMES,
+] as const;
+
 export const NON_FUNCTIONAL_PSEUDO_ELEMENT_NAMES = [
   'after',
   'before',
@@ -393,4 +402,11 @@ export const NON_FUNCTIONAL_PSEUDO_ELEMENT_NAMES = [
   'selection',
   'slotted',
   'spelling-error',
+] as const;
+
+export const FUNCTIONAL_PSEUDO_ELEMENT_NAMES = [] as const;
+
+export const PSEUDO_ELEMENT_NAMES = [
+  ...FUNCTIONAL_PSEUDO_ELEMENT_NAMES,
+  ...NON_FUNCTIONAL_PSEUDO_ELEMENT_NAMES,
 ] as const;

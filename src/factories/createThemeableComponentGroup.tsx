@@ -1,12 +1,12 @@
 import { useTheme } from '@emotion/react';
-import { defaultsDeep } from 'lodash';
+import { defaultsDeep, isEmpty } from 'lodash';
 import { getOr } from 'lodash/fp';
 import * as React from 'react';
 import { Element } from '../components';
 import {
   DEFAULT_HTML_TAG,
-  NON_FUNCTIONAL_PSEUDO_CLASS_NAMES,
-  NON_FUNCTIONAL_PSEUDO_ELEMENT_NAMES,
+  PSEUDO_CLASS_NAMES,
+  PSEUDO_ELEMENT_NAMES,
 } from '../constants';
 
 type ThemeableComponentProps = Record<string, unknown>;
@@ -32,19 +32,35 @@ const createThemeableComponentGroup: CreateThemeableComponentGroup = ({
     groupTheme,
   )
 
+  const mergePseudoThemes = (pseudoKey: string) => {
+    const groupPseudoTheme = getOr({}, `${groupName}.${pseudoKey}`, theme);
+    const componentPseudoTheme = getOr({}, `${groupName}.${name}.${pseudoKey}`, theme);
+  
+    return defaultsDeep(groupPseudoTheme, componentPseudoTheme);
+  };
+  
   const mergedPseudoThemes = [
-    ...NON_FUNCTIONAL_PSEUDO_CLASS_NAMES,
-    ...NON_FUNCTIONAL_PSEUDO_ELEMENT_NAMES
+    ...PSEUDO_CLASS_NAMES,
+    ...PSEUDO_ELEMENT_NAMES,
   ].reduce((accumulator, pseudo) => {
-    const groupPseudoTheme = getOr({}, `${groupName}.${pseudo}`, theme);
-    const componentPseudoTheme = getOr({}, `${groupName}.${name}.${pseudo}`, theme);
-
-    const mergedPseudoTheme = defaultsDeep(groupPseudoTheme, componentPseudoTheme);
-    accumulator[pseudo] = mergedPseudoTheme;
-
+    if (pseudo instanceof RegExp) {
+      const matchingKeys = Object.keys(getOr({}, groupName, theme)).filter(key => pseudo.test(key));
+      matchingKeys.forEach((matchedKey) => {
+        const mergedPseudoTheme = mergePseudoThemes(matchedKey);
+        if (!isEmpty(mergedPseudoTheme)) {
+          accumulator[matchedKey] = mergedPseudoTheme;
+        }
+      });
+    } else {
+      const mergedPseudoTheme = mergePseudoThemes(pseudo);
+      if (!isEmpty(mergedPseudoTheme)) {
+        accumulator[pseudo] = mergedPseudoTheme;
+      }
+    }
+  
     return accumulator;
   }, {} as Record<string, Record<string, string>>);
-
+  
   return <Tag as={as} {...mergedTheme} pseudo={mergedPseudoThemes} {...rest} />;
 };
 

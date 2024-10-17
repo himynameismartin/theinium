@@ -1,14 +1,14 @@
 import isPropValid from '@emotion/is-prop-valid';
 import { Interpolation } from '@emotion/react';
 import styled from '@emotion/styled';
-import * as React from 'react';
 import { isEmpty } from 'lodash';
 import { getOr } from 'lodash/fp';
+import * as React from 'react';
 import {
   CSS_PROPERTIES,
   DEFAULT_HTML_TAG,
-  NON_FUNCTIONAL_PSEUDO_CLASS_NAMES,
-  NON_FUNCTIONAL_PSEUDO_ELEMENT_NAMES,
+  PSEUDO_CLASS_NAMES,
+  PSEUDO_ELEMENT_NAMES,
 } from '../constants';
 
 const PSEUDO_CLASS_NAME_INDICATOR = ':';
@@ -25,7 +25,7 @@ type DeclarationsHandler = {
 type PseudoDeclarationsHandler = DeclarationsHandler &
   {
     indicator: Indicator;
-    pseudoName: string;
+    pseudoName: string | RegExp;
   };
   
 type HTMLAttributesProps = React.HTMLAttributes<HTMLElement>;
@@ -48,11 +48,29 @@ const declarationsHandler = ({ properties }: DeclarationsHandler) => {
 const pseudoSelectorsHandler = (
   { properties, indicator, pseudoName }: PseudoDeclarationsHandler
 ) => {
-  return (props: HTMLAttributesProps): Interpolation<React.CSSProperties> => {
-    const pseudoClassProps = getOr(null, `pseudo.${pseudoName}`, props);
+  return (props: HTMLAttributesProps & { pseudo?: Record<string, string> }): Interpolation<React.CSSProperties> => {
+    const { pseudo = {} } = props;
+    let pseudoClassProps: Record<string, React.CSSProperties> = {};
+    let finalPseudoName = pseudoName;
+
+    if (pseudoName instanceof RegExp) {
+      Object.keys(pseudo).every((matchedKey) => {
+        if (pseudoName.test(matchedKey)) {
+          finalPseudoName = matchedKey;
+          const matchedProps = getOr(null, `pseudo.${finalPseudoName}`, props);
+          if (!isEmpty(matchedProps)) {
+            pseudoClassProps = matchedProps;
+          }
+          return false;
+        }
+      });
+    } else {
+      pseudoClassProps = getOr(null, `pseudo.${finalPseudoName}`, props);
+    }
+
     if (!isEmpty(pseudoClassProps)) {
       return {
-        [`&${indicator}${pseudoName}`]: declarationsHandler({ properties })(pseudoClassProps),
+        [`&${indicator}${finalPseudoName}`]: declarationsHandler({ properties })(pseudoClassProps),
       } as Interpolation<React.CSSProperties>;
     }
     return null;
@@ -65,12 +83,14 @@ const StyledElement = styled(DEFAULT_HTML_TAG, {
   },
 })`
   ${declarationsHandler({ properties: CSS_PROPERTIES })}
-  ${NON_FUNCTIONAL_PSEUDO_CLASS_NAMES.map(pseudoName => pseudoSelectorsHandler({
-    properties: CSS_PROPERTIES,
-    indicator: PSEUDO_CLASS_NAME_INDICATOR,
-    pseudoName,
-  }))}
-  ${NON_FUNCTIONAL_PSEUDO_ELEMENT_NAMES.map(pseudoName => pseudoSelectorsHandler({
+  ${props => {
+    return PSEUDO_CLASS_NAMES.map(pseudoName => pseudoSelectorsHandler({
+      properties: CSS_PROPERTIES,
+      indicator: PSEUDO_CLASS_NAME_INDICATOR,
+      pseudoName,
+    })(props))
+  }}
+  ${PSEUDO_ELEMENT_NAMES.map(pseudoName => pseudoSelectorsHandler({
     properties: CSS_PROPERTIES,
     indicator: PSEUDO_ELEMENT_NAME_INDICATOR,
     pseudoName,

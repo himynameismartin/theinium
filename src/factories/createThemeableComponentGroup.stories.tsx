@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import styled from '@emotion/styled';
 import React from 'react';
-import { ThemeContextProvider, ThemeProvider } from '../contexts/ThemeProvider';
 import Element from '../components/Element';
+import { ThemeContextProvider, ThemeProvider } from '../contexts/ThemeProvider';
 import createThemeableComponentGroup from './createThemeableComponentGroup'
 
 const THEME_OPTIONS = ['vanilla', 'pistachio'];
@@ -38,6 +38,9 @@ const themes = {
       },
       hover: {
         color: '#93C572'
+      },
+      'nth-of-type(even)': {
+        background: '#000000'
       }
     },
     pseudoElements: {
@@ -66,6 +69,9 @@ const themes = {
       },
       hover: {
         color: '#F3E5AB'
+      },
+      'nth-of-type(even)': {
+        background: '#000000'
       }
     },
     pseudoElements: {
@@ -104,6 +110,7 @@ const ThemeableH4 = createThemeableHeading({ as: 'h4', component: StyledComponen
 
 const createThemeablePseudoClasses = createThemeableComponentGroup({ name: 'pseudoClasses' });
 const ThemeableHoverPseudoClass = createThemeablePseudoClasses({ as: 'div', component: StyledComponent });
+const ThemeableNthOfTypeEvenPseudoClass = createThemeablePseudoClasses({ as: 'div', component: StyledComponent });
 
 const createThemeablePseudoElements = createThemeableComponentGroup({ name: 'pseudoElements' });
 const ThemeableFirstLetterPseudoElement = createThemeablePseudoElements({ as: 'div', component: StyledComponent });
@@ -163,6 +170,19 @@ export const H4: Story = {
 export const HoverPseudoClass: Story = {
   args: {
     children: <ThemeableHoverPseudoClass>theinium</ThemeableHoverPseudoClass>,
+  },
+};
+
+export const NthOfTypeEvenPseudoClass: Story = {
+  args: {
+    children: (
+      <React.Fragment>
+        <ThemeableNthOfTypeEvenPseudoClass>theinium</ThemeableNthOfTypeEvenPseudoClass>
+        <ThemeableNthOfTypeEvenPseudoClass>theinium</ThemeableNthOfTypeEvenPseudoClass>
+        <ThemeableNthOfTypeEvenPseudoClass>theinium</ThemeableNthOfTypeEvenPseudoClass>
+        <ThemeableNthOfTypeEvenPseudoClass>theinium</ThemeableNthOfTypeEvenPseudoClass>
+      </React.Fragment>
+    ),
   },
 };
 
