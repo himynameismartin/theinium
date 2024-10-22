@@ -1,5 +1,5 @@
 import isPropValid from '@emotion/is-prop-valid';
-import { Interpolation } from '@emotion/react';
+import { CSSObject, Interpolation } from '@emotion/react';
 import styled from '@emotion/styled';
 import { isEmpty } from 'lodash';
 import { getOr } from 'lodash/fp';
@@ -10,6 +10,7 @@ import {
   PSEUDO_CLASS_NAMES,
   PSEUDO_ELEMENT_NAMES,
 } from '../constants';
+import { MediaQueriesType, useMediaQueries } from '../contexts/MediaQueriesProvider'
 
 const PSEUDO_CLASS_NAME_INDICATOR = ':';
 const PSEUDO_ELEMENT_NAME_INDICATOR = '::';
@@ -19,7 +20,7 @@ type Indicator = typeof PSEUDO_CLASS_NAME_INDICATOR | typeof PSEUDO_ELEMENT_NAME
 type Properties = typeof CSS_PROPERTIES[number];
 
 type DeclarationsHandler = {
-  properties: readonly Properties[];
+  properties: readonly (keyof React.CSSProperties)[];
 };
 
 type PseudoDeclarationsHandler = DeclarationsHandler &
@@ -27,21 +28,38 @@ type PseudoDeclarationsHandler = DeclarationsHandler &
     indicator: Indicator;
     pseudoName: string | RegExp;
   };
-  
+
 type HTMLAttributesProps = React.HTMLAttributes<HTMLElement>;
 
-type ValueType = string | number;
-type DeclarationRecordType = Partial<Record<Properties, ValueType>>;
-
 const declarationsHandler = ({ properties }: DeclarationsHandler) => {
-  return (props: HTMLAttributesProps): Interpolation<React.CSSProperties> => {
-    return properties.reduce((accumulator, property) => {
-      const value = getOr(null, property, props);
-      if (value !== undefined && value !== null) {
-        (accumulator as Partial<React.CSSProperties>)[property] = value;
+  return (
+    props: HTMLAttributesProps & { mediaQueries?: string[] }
+  ): Interpolation<React.CSSProperties> => {
+    const { mediaQueries } = props;
+    const declarations: CSSObject = {};
+
+    properties.forEach((property) => {
+      const value = getOr(null, property, props) as React.CSSProperties[keyof React.CSSProperties];
+
+      if (Array.isArray(value) && Array.isArray(mediaQueries)) {
+        value.forEach((val, index) => {
+          const mediaQuery = mediaQueries[index];
+
+          if (val !== undefined && val !== null && mediaQuery) {
+            if (!declarations[`@media ${mediaQuery}`]) {
+              declarations[`@media ${mediaQuery}`] = {};
+            }
+
+            (declarations[`@media ${mediaQuery}`] as CSSObject)[property as keyof CSSObject] = val;
+          }
+        });
+      } else if (value !== undefined && value !== null) {
+        declarations[property as keyof CSSObject] = value;
       }
-      return accumulator;
-    }, {} as Interpolation<React.CSSProperties>);
+
+    });
+
+    return declarations;
   };
 };
 
@@ -71,7 +89,7 @@ const pseudoSelectorsHandler = (
     if (!isEmpty(pseudoClassProps)) {
       return {
         [`&${indicator}${finalPseudoName}`]: declarationsHandler({ properties })(pseudoClassProps),
-      } as Interpolation<React.CSSProperties>;
+      } as CSSObject;
     }
     return null;
   }
@@ -97,13 +115,25 @@ const StyledElement = styled(DEFAULT_HTML_TAG, {
   }))}
 `;
 
-type ElementProps = HTMLAttributesProps & Partial<DeclarationRecordType> & {
-  as?: keyof JSX.IntrinsicElements | React.ComponentType<unknown>;
+type ResponsiveCSSProperties = {
+  [K in keyof React.CSSProperties]?: React.CSSProperties[K] | React.CSSProperties[K][];
 };
 
-const Element = React.forwardRef<HTMLDivElement, ElementProps>((props, ref) => (
-  <StyledElement ref={ref} {...props} />
-));
+type ElementProps = Omit<
+  HTMLAttributesProps, keyof ResponsiveCSSProperties
+> & ResponsiveCSSProperties & {
+  as?: keyof JSX.IntrinsicElements | React.ComponentType<unknown>;
+  mediaQueries?: MediaQueriesType;
+  children?: React.ReactNode;
+};
+
+const Element = React.forwardRef<HTMLElement, ElementProps>((props, ref) => {
+  const mediaQueries = useMediaQueries();
+  return (
+    /* @ts-expect-error React.HTMLAttributes<HTMLElement> not getting overridden by ResponsiveCSSProperties */
+    <StyledElement ref={ref} mediaQueries={mediaQueries} {...props} />
+  )
+});
 
 Element.displayName = 'Element';
 
