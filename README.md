@@ -45,9 +45,8 @@ const ThemedApp: React.FC = () => (
 
 ### TODO
 
-- themeable components
-- themeable interactivity
-- support for all properties
+- using tokens as values in themes
+- export token selectors
 
 ### License
 
