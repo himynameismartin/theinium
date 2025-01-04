@@ -47,9 +47,9 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ name, children }) 
   }
 
   const themeNames = currentThemeName.split(THEME_SEPARATOR) || [];
-  const firstTheme = themes[themeNames[0]] || {};
+  const baseTheme = themes[themeNames[0]] || {};
 
-  const mergedTheme = defaultsDeep({}, selectedTheme, firstTheme);
+  const mergedTheme = defaultsDeep({}, selectedTheme, baseTheme);
 
   const fullName = currentThemeName ? `${currentThemeName}${THEME_SEPARATOR}${name}` : name;
   const finalTheme = { ...mergedTheme, name: fullName };

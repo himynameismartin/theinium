@@ -28,6 +28,7 @@ const createThemeableComponentGroup: CreateThemeableComponentGroup = ({
   const componentTheme = getOr({}, `${groupName}.${name}`, theme);
 
   const mergedTheme = defaultsDeep(
+    {},
     componentTheme,
     groupTheme,
   )
@@ -36,7 +37,11 @@ const createThemeableComponentGroup: CreateThemeableComponentGroup = ({
     const groupPseudoTheme = getOr({}, `${groupName}.${pseudoKey}`, theme);
     const componentPseudoTheme = getOr({}, `${groupName}.${name}.${pseudoKey}`, theme);
   
-    return defaultsDeep(groupPseudoTheme, componentPseudoTheme);
+    return defaultsDeep(
+      {},
+      componentPseudoTheme,
+      groupPseudoTheme,
+    );
   };
   
   const mergedPseudoThemes = [
