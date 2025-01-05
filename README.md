@@ -18,6 +18,11 @@ const themes = {
   vanilla: {
     colors: {
       brand: '#F3E5AB'
+    },
+    variants: {
+      italic: {
+        fontStyle: 'italic'
+      }
     }
   },
   pistachio: {
@@ -36,7 +41,7 @@ const ThemedApp = () => (
     <ThemeProvider name="vanilla">
       <ThemeAwareComponent>vanilla</ThemeAwareComponent>
       <ThemeProvider name="pistachio">
-        <ThemeAwareComponent>pistachio</ThemeAwareComponent>
+        <ThemeAwareComponent variant="italic">pistachio</ThemeAwareComponent>
       </ThemeProvider>
     </ThemeProvider>
   </ThemeContextProvider>

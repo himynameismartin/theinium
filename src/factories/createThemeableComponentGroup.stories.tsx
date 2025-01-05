@@ -13,14 +13,30 @@ const themes = {
     components: {
       defaults: {
         color: '#F3E5AB'
+      },
+      variants: {
+        underline: {
+          textDecoration: 'underline'
+        }
       }
     },
     headings: {
       defaults: {
         color: '#F3E5AB'
       },
+      variants: {
+        underline: {
+          textDecoration: 'underline'
+        }
+      },
       H1: {
-        fontSize: '32px'
+        fontSize: '32px',
+
+        variants: {
+          italic: {
+            fontStyle: 'italic'
+          }
+        }
       },
       H2: {
         fontSize: '24px'
@@ -83,7 +99,7 @@ const themes = {
       }
     }
   }
-}
+};
 
 const StyledComponent = styled(Element)``;
 
@@ -146,9 +162,33 @@ export const Default: Story = {
   },
 };
 
+export const Underlined: Story = {
+  args: {
+    children: <ThemeableComponent variant="underline">theinium</ThemeableComponent>,
+  },
+};
+
 export const H1: Story = {
   args: {
     children: <ThemeableH1>theinium</ThemeableH1>,
+  },
+};
+
+export const H1VariantString: Story = {
+  args: {
+    children: <ThemeableH1 variant="underline,italic">theinium</ThemeableH1>,
+  },
+};
+
+export const H1VariantArray: Story = {
+  args: {
+    children: <ThemeableH1 variant={['underline', 'italic']}>theinium</ThemeableH1>,
+  },
+};
+
+export const H1VariantObject: Story = {
+  args: {
+    children: <ThemeableH1 variant={{ underline: false, italic: true }}>theinium</ThemeableH1>,
   },
 };
 

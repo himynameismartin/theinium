@@ -9,7 +9,12 @@ import {
   PSEUDO_ELEMENT_NAMES,
 } from '../constants';
 
-type ThemeableComponentProps = Record<string, unknown>;
+const VARIANTS_PROP_NAME = 'variants'
+const DEFAULTS_KEY_NAME = 'defaults'
+
+type VariantItemType = string;
+type VariantType = VariantItemType | Array<VariantItemType> | Record<VariantItemType, boolean>;
+type ThemeableComponentProps = { variant?: VariantType } & Record<string, unknown>;
 
 type CreateThemeableComponentGroup = {
   (params: { name: string, component?: React.ElementType }): (
@@ -20,15 +25,45 @@ type CreateThemeableComponentGroup = {
 const createThemeableComponentGroup: CreateThemeableComponentGroup = ({
   name: groupName,
   component: groupComponent = Element
-}) => ({ as = DEFAULT_HTML_TAG, component = Element, name = '' } = {}) => ({ ...rest }) => {
+}) => ({ as = DEFAULT_HTML_TAG, component = Element, name = '' } = {}) => ({ variant, ...rest }) => {
   const theme = useTheme();
   const Tag = component || groupComponent;
 
-  const groupTheme = getOr({}, `${groupName}.defaults`, theme);
-  const componentTheme = getOr({}, `${groupName}.${name}`, theme);
+  const groupTheme = getOr({}, `${groupName}.${DEFAULTS_KEY_NAME}`, theme);
+  const groupVariants = getOr({}, `${groupName}.${VARIANTS_PROP_NAME}`, theme);
+  const { variants: componentVariants, ...componentTheme } = getOr({}, `${groupName}.${name}`, theme);
+
+  const variantList = Array.isArray(variant)
+    ? variant.filter((item) => typeof item === 'string')
+    : (typeof variant === 'object' && variant !== null)
+      ? Object.keys(variant).filter((key) => typeof key === 'string' && Boolean(variant[key]))
+      : (typeof variant === 'string')
+        ? variant
+          .split(',')
+          .filter(Boolean)
+        : [];
+
+  const getComponentVariant = (variant: VariantItemType) =>
+    componentVariants?.[variant] || {};
+  
+  const getGroupVariant = (variant: VariantItemType) =>
+    groupVariants?.[variant] || {};
+  
+  const getVariant = (variant: VariantItemType) =>
+    defaultsDeep(
+      {},
+      getComponentVariant(variant),
+      getGroupVariant(variant)
+    );
+
+  const variantTheme = variantList.reduce((result, variant) => {
+    const defaults = getVariant(variant);
+    return { ...result, ...defaults };
+  }, {});
 
   const mergedTheme = defaultsDeep(
     {},
+    variantTheme,
     componentTheme,
     groupTheme,
   )
