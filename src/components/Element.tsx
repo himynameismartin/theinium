@@ -20,7 +20,7 @@ type Indicator = typeof PSEUDO_CLASS_NAME_INDICATOR | typeof PSEUDO_ELEMENT_NAME
 type Properties = typeof CSS_PROPERTIES[number];
 
 type DeclarationsHandler = {
-  properties: readonly (keyof React.CSSProperties)[];
+  properties: ReadonlyArray<(keyof React.CSSProperties)>;
 };
 
 type PseudoDeclarationsHandler = DeclarationsHandler &
@@ -33,7 +33,7 @@ type HTMLAttributesProps = React.HTMLAttributes<HTMLElement>;
 
 const declarationsHandler = ({ properties }: DeclarationsHandler) => {
   return (
-    props: HTMLAttributesProps & { mediaQueries?: string[] }
+    props: HTMLAttributesProps & { mediaQueries?: Array<string> }
   ): Interpolation<React.CSSProperties> => {
     const { mediaQueries } = props;
     const declarations: CSSObject = {};
@@ -116,7 +116,7 @@ const StyledElement = styled(DEFAULT_HTML_TAG, {
 `;
 
 type ResponsiveCSSProperties = {
-  [K in keyof React.CSSProperties]?: React.CSSProperties[K] | React.CSSProperties[K][];
+  [K in keyof React.CSSProperties]?: React.CSSProperties[K] | Array<React.CSSProperties[K]>;
 };
 
 type ElementProps = Omit<

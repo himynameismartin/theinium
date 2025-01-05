@@ -31,7 +31,7 @@ const ThemeAwareComponent = styled(Element)`
   color: ${getColor('brand')}
 `;
 
-const ThemedApp: React.FC = () => (
+const ThemedApp = () => (
   <ThemeContextProvider themes={themes}>
     <ThemeProvider name="vanilla">
       <ThemeAwareComponent>vanilla</ThemeAwareComponent>

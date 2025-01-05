@@ -9,7 +9,7 @@ const MEDIA_QUERIES = [
   '(prefers-color-scheme: dark)',
 ]
 
-const MediaQueriesApp: React.FC = () => (
+const MediaQueriesApp = () => (
   <MediaQueriesProvider mediaQueries={MEDIA_QUERIES}>
     <Element color={['#93C572', '#F3E5AB']}>theinuim</Element>
   </MediaQueriesProvider>

@@ -6,7 +6,7 @@ import Element from '../components/Element';
 import { ThemeContextProvider, ThemeProvider } from '../contexts/ThemeProvider';
 import createThemeableComponentGroup from './createThemeableComponentGroup'
 
-const THEME_OPTIONS = ['vanilla', 'pistachio'];
+const THEME_OPTIONS = ['vanilla', 'pistachio'] as const;
 
 const themes = {
   vanilla: {
@@ -90,9 +90,12 @@ const StyledComponent = styled(Element)``;
 const createThemeableComponent = createThemeableComponentGroup({ name: 'components' });
 const ThemeableComponent = createThemeableComponent({ as: 'div', component: StyledComponent });
 
-const ThemeableComponentApp: React.FC<{
-  theme: (typeof THEME_OPTIONS)[number], children: React.ReactNode
-}> = ({ theme, children }) => (
+type ThemeableComponentAppProps = {
+  theme: (typeof THEME_OPTIONS)[number],
+  children: React.ReactNode,
+};
+
+const ThemeableComponentApp = ({ theme, children }: ThemeableComponentAppProps) => (
   <ThemeContextProvider themes={themes}>
     <ThemeProvider name="vanilla">
       <ThemeProvider name={theme}>

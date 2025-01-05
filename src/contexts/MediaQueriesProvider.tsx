@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export type MediaQueriesType = string[] | null;
+export type MediaQueriesType = Array<string> | null;
 
 type MediaQueriesContextType = MediaQueriesType;
 
@@ -11,7 +11,7 @@ type MediaQueriesProviderProps = {
   children: React.ReactNode;
 };
 
-export const MediaQueriesProvider: React.FC<MediaQueriesProviderProps> = (
+export const MediaQueriesProvider = (
   { mediaQueries, children }: MediaQueriesProviderProps
 ) => {
   return (

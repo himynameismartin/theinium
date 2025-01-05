@@ -17,8 +17,8 @@ type ThemeContextProviderProps = {
   children: React.ReactNode;
 };
 
-export const ThemeContextProvider: React.FC<ThemeContextProviderProps> = (
-  { themes, children },
+export const ThemeContextProvider = (
+  { themes, children }: ThemeContextProviderProps,
 ) => {
   return <ThemeContext.Provider value={themes}>{children}</ThemeContext.Provider>;
 };
@@ -36,7 +36,7 @@ type ThemeProviderProps = {
   children: React.ReactNode;
 };
 
-export const ThemeProvider: React.FC<ThemeProviderProps> = ({ name, children }) => {
+export const ThemeProvider = ({ name, children }: ThemeProviderProps) => {
   const themes = useThemeContext();
   const currentTheme = useTheme() as Theme;
   const currentThemeName = currentTheme?.name || '';
