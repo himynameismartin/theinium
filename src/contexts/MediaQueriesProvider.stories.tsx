@@ -4,14 +4,21 @@ import React from 'react';
 import { MediaQueriesProvider } from './MediaQueriesProvider';
 import Element from '../components/Element';
 
-const MEDIA_QUERIES = [
-  '(prefers-color-scheme: light)',
-  '(prefers-color-scheme: dark)',
-]
+const MEDIA_QUERIES = {
+  'light': '(prefers-color-scheme: light)',
+  'dark': '(prefers-color-scheme: dark)',
+}
 
 const MediaQueriesApp = () => (
   <MediaQueriesProvider mediaQueries={MEDIA_QUERIES}>
-    <Element color={['#93C572', '#F3E5AB']}>theinuim</Element>
+    <Element
+      color={{
+        'light': '#93C572',
+        'dark': '#F3E5AB',
+      }}
+    >
+      theinium
+    </Element>
   </MediaQueriesProvider>
 );
 

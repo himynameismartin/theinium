@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export type MediaQueriesType = Array<string> | null;
+export type MediaQueriesType = Record<string, string>;
 
 type MediaQueriesContextType = MediaQueriesType;
 
@@ -21,7 +21,7 @@ export const MediaQueriesProvider = (
   );
 };
 
-export const useMediaQueries = (): MediaQueriesType => {
+export const useMediaQueries = (): MediaQueriesType | null => {
   const context = React.useContext(MediaQueriesContext);
   if (!context) {
     return null;

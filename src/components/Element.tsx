@@ -15,6 +15,10 @@ import { MediaQueriesType, useMediaQueries } from '../contexts/MediaQueriesProvi
 const PSEUDO_CLASS_NAME_INDICATOR = ':';
 const PSEUDO_ELEMENT_NAME_INDICATOR = '::';
 
+const isNonArrayObject = (value: unknown): boolean => {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
 type Indicator = typeof PSEUDO_CLASS_NAME_INDICATOR | typeof PSEUDO_ELEMENT_NAME_INDICATOR;
 
 type Properties = typeof CSS_PROPERTIES[number];
@@ -33,17 +37,17 @@ type HTMLAttributesProps = React.HTMLAttributes<HTMLElement>;
 
 const declarationsHandler = ({ properties }: DeclarationsHandler) => {
   return (
-    props: HTMLAttributesProps & { mediaQueries?: Array<string> }
+    props: HTMLAttributesProps & { mediaQueries?: MediaQueriesType }
   ): Interpolation<React.CSSProperties> => {
     const { mediaQueries } = props;
     const declarations: CSSObject = {};
 
     properties.forEach((property) => {
-      const value = getOr(null, property, props) as React.CSSProperties[keyof React.CSSProperties];
+      const value = getOr(null, property, props) as (React.CSSProperties[keyof React.CSSProperties] | Record<string, React.CSSProperties[keyof React.CSSProperties]>);
 
-      if (Array.isArray(value) && Array.isArray(mediaQueries)) {
-        value.forEach((val, index) => {
-          const mediaQuery = mediaQueries[index];
+      if (isNonArrayObject(value) && isNonArrayObject(mediaQueries)) {
+        Object.entries(value as Record<string, React.CSSProperties[keyof React.CSSProperties]>).forEach(([key, val]) => {
+          const mediaQuery = (mediaQueries as MediaQueriesType)[key];
 
           if (val !== undefined && val !== null && mediaQuery) {
             if (!declarations[`@media ${mediaQuery}`]) {
@@ -56,7 +60,6 @@ const declarationsHandler = ({ properties }: DeclarationsHandler) => {
       } else if (value !== undefined && value !== null) {
         declarations[property as keyof CSSObject] = value;
       }
-
     });
 
     return declarations;
@@ -101,13 +104,11 @@ const StyledElement = styled(DEFAULT_HTML_TAG, {
   },
 })`
   ${declarationsHandler({ properties: CSS_PROPERTIES })}
-  ${props => {
-    return PSEUDO_CLASS_NAMES.map(pseudoName => pseudoSelectorsHandler({
-      properties: CSS_PROPERTIES,
-      indicator: PSEUDO_CLASS_NAME_INDICATOR,
-      pseudoName,
-    })(props))
-  }}
+  ${PSEUDO_CLASS_NAMES.map(pseudoName => pseudoSelectorsHandler({
+    properties: CSS_PROPERTIES,
+    indicator: PSEUDO_CLASS_NAME_INDICATOR,
+    pseudoName,
+  }))}
   ${PSEUDO_ELEMENT_NAMES.map(pseudoName => pseudoSelectorsHandler({
     properties: CSS_PROPERTIES,
     indicator: PSEUDO_ELEMENT_NAME_INDICATOR,
@@ -116,7 +117,7 @@ const StyledElement = styled(DEFAULT_HTML_TAG, {
 `;
 
 type ResponsiveCSSProperties = {
-  [K in keyof React.CSSProperties]?: React.CSSProperties[K] | Array<React.CSSProperties[K]>;
+  [K in keyof React.CSSProperties]?: React.CSSProperties[K] | Record<string, React.CSSProperties[K]>;
 };
 
 type ElementProps = Omit<
