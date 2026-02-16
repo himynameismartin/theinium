@@ -42,7 +42,7 @@ const ThemedApp = ({ theme }: ThemeAppProps) => (
   <ThemeContextProvider themes={themes}>
     <ThemeProvider name="vanilla">
       <ThemeProvider name={theme}>
-        <ThemeAwareComponent>theinuim</ThemeAwareComponent>
+        <ThemeAwareComponent>theinium</ThemeAwareComponent>
       </ThemeProvider>
     </ThemeProvider>
   </ThemeContextProvider>
