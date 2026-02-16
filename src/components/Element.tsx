@@ -7,19 +7,13 @@ import * as React from 'react';
 import {
   CSS_PROPERTIES,
   DEFAULT_HTML_TAG,
-  PSEUDO_CLASS_NAMES,
-  PSEUDO_ELEMENT_NAMES,
+  PSEUDO_SELECTOR_NAMES,
 } from '../constants';
 import { MediaQueriesType, useMediaQueries } from '../contexts/MediaQueriesProvider'
-
-const PSEUDO_CLASS_NAME_INDICATOR = ':';
-const PSEUDO_ELEMENT_NAME_INDICATOR = '::';
 
 const isNonArrayObject = (value: unknown): boolean => {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
-
-type Indicator = typeof PSEUDO_CLASS_NAME_INDICATOR | typeof PSEUDO_ELEMENT_NAME_INDICATOR;
 
 type Properties = typeof CSS_PROPERTIES[number];
 
@@ -29,7 +23,6 @@ type DeclarationsHandler = {
 
 type PseudoDeclarationsHandler = DeclarationsHandler &
   {
-    indicator: Indicator;
     pseudoName: string | RegExp;
   };
 
@@ -67,7 +60,7 @@ const declarationsHandler = ({ properties }: DeclarationsHandler) => {
 };
 
 const pseudoSelectorsHandler = (
-  { properties, indicator, pseudoName }: PseudoDeclarationsHandler
+  { properties, pseudoName }: PseudoDeclarationsHandler
 ) => {
   return (props: HTMLAttributesProps & { pseudo?: Record<string, string> }): Interpolation<React.CSSProperties> => {
     const { pseudo = {} } = props;
@@ -91,7 +84,7 @@ const pseudoSelectorsHandler = (
 
     if (!isEmpty(pseudoClassProps)) {
       return {
-        [`&${indicator}${finalPseudoName}`]: declarationsHandler({ properties })(pseudoClassProps),
+        [`&${finalPseudoName}`]: declarationsHandler({ properties })(pseudoClassProps),
       } as CSSObject;
     }
     return null;
@@ -104,14 +97,8 @@ const StyledElement = styled(DEFAULT_HTML_TAG, {
   },
 })`
   ${declarationsHandler({ properties: CSS_PROPERTIES })}
-  ${PSEUDO_CLASS_NAMES.map(pseudoName => pseudoSelectorsHandler({
+  ${PSEUDO_SELECTOR_NAMES.map(pseudoName => pseudoSelectorsHandler({
     properties: CSS_PROPERTIES,
-    indicator: PSEUDO_CLASS_NAME_INDICATOR,
-    pseudoName,
-  }))}
-  ${PSEUDO_ELEMENT_NAMES.map(pseudoName => pseudoSelectorsHandler({
-    properties: CSS_PROPERTIES,
-    indicator: PSEUDO_ELEMENT_NAME_INDICATOR,
     pseudoName,
   }))}
 `;

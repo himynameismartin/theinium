@@ -346,75 +346,80 @@ export const CSS_PROPERTIES = [
   'zoom',
 ] as const;
 
-export const NON_FUNCTIONAL_PSEUDO_CLASS_NAMES = [
-  'active',
-  'checked',
-  'default',
-  'disabled',
-  'empty',
-  'enabled',
-  'first',
-  'first-child',
-  'first-of-type',
-  'focus',
-  'focus-visible',
-  'focus-within',
-  'hover',
-  'indeterminate',
-  'in-range',
-  'invalid',
-  'last-child',
-  'last-of-type',
-  'link',
-  'only-child',
-  'only-of-type',
-  'optional',
-  'out-of-range',
-  'placeholder-shown',
-  'read-only',
-  'read-write',
-  'required',
-  'root',
-  'scope',
-  'target',
-  'valid',
-  'visited',
+const NON_FUNCTIONAL_PSEUDO_CLASS_NAMES = [
+  ':active',
+  ':checked',
+  ':default',
+  ':disabled',
+  ':empty',
+  ':enabled',
+  ':first',
+  ':first-child',
+  ':first-of-type',
+  ':focus',
+  ':focus-visible',
+  ':focus-within',
+  ':hover',
+  ':indeterminate',
+  ':in-range',
+  ':invalid',
+  ':last-child',
+  ':last-of-type',
+  ':link',
+  ':only-child',
+  ':only-of-type',
+  ':optional',
+  ':out-of-range',
+  ':placeholder-shown',
+  ':read-only',
+  ':read-write',
+  ':required',
+  ':root',
+  ':scope',
+  ':target',
+  ':valid',
+  ':visited',
 ] as const;
 
-export const FUNCTIONAL_PSEUDO_CLASS_NAMES = [
-  /nth-(child|last-child|of-type|last-of-type|col|last-col)\((even|odd|([+-]?\d*n(?:[+-]\d+)?)?)\)/,
-  /(not|is|where|has|matches|any)\(([^)]+)\)/,
-  /lang\(([a-zA-Z-]+)\)/,
-  /dir\((ltr|rtl|auto)\)/,
-  /state\(([a-zA-Z0-9_-]+)\)/
+const FUNCTIONAL_PSEUDO_CLASS_NAMES = [
+  /:nth-(child|last-child|of-type|last-of-type|col|last-col)\((even|odd|([+-]?\d*n(?:[+-]\d+)?)?)\)/,
+  /:(not|is|where|has|matches|any)\(([^)]+)\)/,
+  /:lang\(([a-zA-Z-]+)\)/,
+  /:dir\((ltr|rtl|auto)\)/,
+  /:state\(([a-zA-Z0-9_-]+)\)/
 ] as const;
 
-export const PSEUDO_CLASS_NAMES = [
+const PSEUDO_CLASS_NAMES = [
   ...FUNCTIONAL_PSEUDO_CLASS_NAMES,
   ...NON_FUNCTIONAL_PSEUDO_CLASS_NAMES,
 ] as const;
 
-export const NON_FUNCTIONAL_PSEUDO_ELEMENT_NAMES = [
-  'after',
-  'before',
-  'cue',
-  'first-letter',
-  'first-line',
-  'grammar-error',
-  'marker',
-  'placeholder',
-  'selection',
-  'slotted',
-  'spelling-error',
+const NON_FUNCTIONAL_PSEUDO_ELEMENT_NAMES = [
+  '::after',
+  '::before',
+  '::cue',
+  '::first-letter',
+  '::first-line',
+  '::grammar-error',
+  '::marker',
+  '::placeholder',
+  '::selection',
+  '::slotted',
+  '::spelling-error',
 ] as const;
 
-export const FUNCTIONAL_PSEUDO_ELEMENT_NAMES = [
-  /part\(([a-zA-Z0-9_-]+)\)/,
-  /slotted\(([a-zA-Z0-9._-]+)\)/,
-  /(cue|cue-region)\(([a-zA-Z0-9._-]*)\)/,
+const FUNCTIONAL_PSEUDO_ELEMENT_NAMES = [
+  /::part\(([a-zA-Z0-9_-]+)\)/,
+  /::slotted\(([a-zA-Z0-9._-]+)\)/,
+  /::(cue|cue-region)\(([a-zA-Z0-9._-]*)\)/,
 ] as const;
 
-export const PSEUDO_ELEMENT_NAMES = [
+const PSEUDO_ELEMENT_NAMES = [
   ...FUNCTIONAL_PSEUDO_ELEMENT_NAMES,
   ...NON_FUNCTIONAL_PSEUDO_ELEMENT_NAMES,
+] as const;
+
+export const PSEUDO_SELECTOR_NAMES = [
+  ...PSEUDO_CLASS_NAMES,
+  ...PSEUDO_ELEMENT_NAMES,
 ] as const;

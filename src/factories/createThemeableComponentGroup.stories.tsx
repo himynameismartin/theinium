@@ -52,10 +52,10 @@ const themes = {
       defaults: {
         color: '#F3E5AB'
       },
-      hover: {
+      ':hover': {
         color: '#93C572'
       },
-      'nth-of-type(even)': {
+      ':nth-of-type(even)': {
         background: '#000000'
       }
     },
@@ -63,7 +63,7 @@ const themes = {
       defaults: {
         color: '#F3E5AB'
       },
-      'first-letter': {
+      '::first-letter': {
         color: '#93C572'
       }
     }
@@ -83,10 +83,10 @@ const themes = {
       defaults: {
         color: '#93C572'
       },
-      hover: {
+      ':hover': {
         color: '#F3E5AB'
       },
-      'nth-of-type(even)': {
+      ':nth-of-type(even)': {
         background: '#000000'
       }
     },
@@ -94,7 +94,7 @@ const themes = {
       defaults: {
         color: '#93C572'
       },
-      'first-letter': {
+      '::first-letter': {
         color: '#F3E5AB'
       }
     }

@@ -5,8 +5,7 @@ import * as React from 'react';
 import { Element } from '../components';
 import {
   DEFAULT_HTML_TAG,
-  PSEUDO_CLASS_NAMES,
-  PSEUDO_ELEMENT_NAMES,
+  PSEUDO_SELECTOR_NAMES,
 } from '../constants';
 
 const VARIANTS_PROP_NAME = 'variants'
@@ -79,10 +78,7 @@ const createThemeableComponentGroup: CreateThemeableComponentGroup = ({
     );
   };
   
-  const mergedPseudoThemes = [
-    ...PSEUDO_CLASS_NAMES,
-    ...PSEUDO_ELEMENT_NAMES,
-  ].reduce((accumulator, pseudo) => {
+  const mergedPseudoThemes = PSEUDO_SELECTOR_NAMES.reduce((accumulator, pseudo) => {
     if (pseudo instanceof RegExp) {
       const matchingKeys = Object.keys(getOr({}, groupName, theme)).filter(key => pseudo.test(key));
       matchingKeys.forEach((matchedKey) => {
